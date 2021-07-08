@@ -5,9 +5,20 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Box from '@material-ui/core/Box';
 
-
-
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://github.com/naveenambookken">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 function Login() {
   const paperStyle={padding: 20, height:'70vh', width:280, margin:"20px auto" }
@@ -49,6 +60,9 @@ function Login() {
         
         </Paper>
       </Grid>
+      <Box mt={8}>
+        <Copyright />
+      </Box>
     </div>
   )
 }
