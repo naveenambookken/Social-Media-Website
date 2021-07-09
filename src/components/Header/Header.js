@@ -1,5 +1,5 @@
 // IMPORTING APIS
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -72,7 +72,7 @@ const Header = (props) => {
                 color="textSecondary"
                 className={classes.title}
               >
-                Murali
+                Ambookken
               </Typography>
               {isMobile ? (
                 <>
@@ -115,7 +115,7 @@ const Header = (props) => {
                       <ListItemIcon>
                         <SchoolIcon />
                       </ListItemIcon>
-                      <Typography variant="h6"> College </Typography>
+                      <Typography variant="h6"> Services </Typography>
                     </MenuItem>
                     <MenuItem
                       onClick={() => setAnchor(null)}
@@ -133,7 +133,7 @@ const Header = (props) => {
                       <ListItemIcon>
                         <BookmarksIcon />
                       </ListItemIcon>
-                      <Typography variant="h6"> Personal </Typography>
+                      <Typography variant="h6"> Contact </Typography>
                     </MenuItem>
                   </Menu>
                 </>
@@ -153,7 +153,7 @@ const Header = (props) => {
                     color="default"
                   >
                     <SchoolIcon />
-                    College
+                    Services
                   </Button>
                   <Button
                     variant="text"
@@ -169,7 +169,7 @@ const Header = (props) => {
                     color="default"
                   >
                     <BookmarksIcon />
-                    Personal
+                    Contact
                   </Button>
                 </div>
               )}
