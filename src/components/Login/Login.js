@@ -85,6 +85,7 @@ function Login() {
                       name="username"
                       placeholder="Enter Username"
                       helperText={<ErrorMessage name="username" />}
+                      error={Boolean(props.errors.username)}
                       fullWidth
                       required
                     />
@@ -98,12 +99,13 @@ function Login() {
                       helperText={<ErrorMessage name="password" />}
                       fullWidth
                       required
+                      error={Boolean(props.errors.password)}
                       
                     />
                     <Field
                       as={FormControlLabel}
                       name="remember"
-                      control={<Checkbox color="primary" />}
+                      control={<Checkbox color="primary"  />}
                       label="Remember me"
                     />
                     <Button
