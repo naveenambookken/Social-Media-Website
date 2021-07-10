@@ -6,15 +6,10 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Box from "@material-ui/core/Box";
+import {Formik, Form, Field, ErrorMessage} from 'formik'
+import * as Yup from 'yup';
+import { FormHelperText } from "@material-ui/core";
 
-//phone number input field imports
-import MuiPhoneNumber from "material-ui-phone-number";
-
-//radio button imports
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
 
 function SignUp() {
     const history = useHistory()
@@ -31,6 +26,27 @@ function SignUp() {
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
   };
 
+  const initialValues={
+    name:'',
+    email:'',
+    password:'',
+    confirmPassword:'',
+    termsAndConditions:false
+  }
+  const onSubmit = (values, props) => {
+    console.log(values);
+  }
+  
+  const validationSchema=Yup.object().shape({
+    name:Yup.string().min(3,'Its too short').required('Required'),
+    email:Yup.string().email('Enter valid email').required('Required'),
+    password:Yup.string().min(6,"Password minimum length should be 6").required('Required'),
+    confirmPassword:Yup.string().oneOf([Yup.ref('password')],"password not matched").required('Required'),
+    termsAndConditions:Yup.string().oneOf(["true"],"Accept terms & conditions")
+  })
+
+
+
   return (
     <div>
       <Grid >
@@ -42,69 +58,64 @@ function SignUp() {
               Please fill this form to create an account !
             </Typography>
           </Grid>
-          <form>
-            <TextField
+          <Formik initialValues={initialValues}  onSubmit={onSubmit} validationSchema={validationSchema} >
+            {(props)=>(
+              <Form>
+                
+            <Field as={TextField}
               fullWidth
               label="Name"
+              name='name'
               placeholder="Enter Your Full Name"
+              error={Boolean(props.errors.name)}
+              helperText={<ErrorMessage name="name"/>}
             />
-            <TextField
+            <Field as={TextField}
               type="email"
               fullWidth
               label="Email"
+              name='email'
               placeholder="Enter Your Email"
+              error={Boolean(props.errors.email)}
+              helperText={<ErrorMessage name="email"/>}
             />
 
-            <FormControl component="fieldset" style={{ margin: "10px 0" }}>
-              <FormLabel component="legend">Gender</FormLabel>
-              <RadioGroup
-                aria-label="gender"
-                name="gender"
-                style={{ display: "initial" }}
-              >
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                />
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                />
-              </RadioGroup>
-            </FormControl>
-
-            <MuiPhoneNumber
-              name="phone"
-              label="Phone Number"
-              defaultCountry={"in"}
-              fullWidth
-            />
-
-            <TextField
+            <Field as={TextField}
               type="password"
               fullWidth
               label="Password"
+              name='password'
               placeholder="Enter a password"
+              error={Boolean(props.errors.password)}
+              helperText={<ErrorMessage name="password"/>}
             />
-            <TextField
+            <Field as={TextField}
               type="password"
               fullWidth
               label="Confirm Password"
+              name='confirmPassword'
               placeholder="Retype that password"
+              error={Boolean(props.errors.confirmPassword)}
+              helperText={<ErrorMessage name="confirmPassword"/>}
             />
             <FormControlLabel
-              control={<Checkbox name="checked" />}
+              control={<Field as={Checkbox} name="termsAndConditions"  />}
               label="I accept the Terms and Conditions."
+              
             />
-
+            <FormHelperText error={Boolean(props.errors.termsAndConditions)} ><ErrorMessage name="termsAndConditions"/></FormHelperText>
             <Grid align="center" style={{marginTop:"25px"}}>
-              <Button type="submit" style={Btnstyle} variant="contained">
-                Sign Up
+              <Button type="submit" style={Btnstyle} variant="contained"
+              disabled={props.isSubmitting}
+              >
+                {props.isSubmitting ?  "Loading.." : "Sign Up" }
+                
               </Button>
             </Grid>
-          </form>
+          
+              </Form>
+  )}
+          </Formik>
             <Box textAlign="left" fontWeight="fontWeightLight" style={{marginTop:"25px"}}>
             Already have an account ? 
             <Link style={{cursor:"pointer"}} onClick={()=>history.push('/login')} >
