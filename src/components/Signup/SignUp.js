@@ -6,13 +6,19 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Box from "@material-ui/core/Box";
+import Alert from '@material-ui/lab/Alert';
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import * as Yup from 'yup';
 import { FormHelperText } from "@material-ui/core";
 
+import {useAuth} from '../../Context/AuthContext'
+import { useState } from "react";
+
 
 function SignUp() {
+  const {signup}= useAuth()
     const history = useHistory()
+    const [Error, setError] = useState()
   const paperStyle = { padding: 20, width: 300, margin: "20px auto" };
   const avatarStyle = { backgroundColor: "#659bf5" };
   const headerTitleStyle = { margin: "0" };
@@ -33,8 +39,14 @@ function SignUp() {
     confirmPassword:'',
     termsAndConditions:false
   }
-  const onSubmit = (values, props) => {
-    console.log(values);
+  async function onSubmit(values, props){
+   try{
+     setError("")
+     await signup(values.email,values.password)
+      history.push('/')
+   }catch{
+     setError("Failed to Sign Up")
+   }
   }
   
   const validationSchema=Yup.object().shape({
@@ -44,7 +56,6 @@ function SignUp() {
     confirmPassword:Yup.string().oneOf([Yup.ref('password')],"password not matched").required('Required'),
     termsAndConditions:Yup.string().oneOf(["true"],"Accept terms & conditions")
   })
-
 
 
   return (
@@ -57,7 +68,8 @@ function SignUp() {
             <Typography variant="caption" gutterBottom>
               Please fill this form to create an account !
             </Typography>
-          </Grid>
+            {Error && <Alert severity="error">{Error}</Alert>}
+            </Grid>
           <Formik initialValues={initialValues}  onSubmit={onSubmit} validationSchema={validationSchema} >
             {(props)=>(
               <Form>

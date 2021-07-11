@@ -7,13 +7,19 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Box from "@material-ui/core/Box";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Alert from '@material-ui/lab/Alert';
 import { useTheme } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+import { useAuth } from "../../Context/AuthContext";
+import { useState } from "react";
+
 function Login() {
+  const { login } = useAuth();
   const history = useHistory();
+  const [Error, setError] = useState();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const paperStyle = {
@@ -39,14 +45,18 @@ function Login() {
     password: "",
     remember: false,
   };
-  const onSubmit = (values, props) => {
-    console.log(values);
-    setTimeout(() => {
-      props.resetForm();
-      props.setSubmitting(false);
-    }, 2000);
-    console.log(props);
-  };
+  async function onSubmit(values, props) {
+    try {
+      setError("");
+      
+      await login(values.username, values.password);
+      history.push("/");
+    } catch {
+      
+      setError("Failed to Log In");
+    }
+  }
+
   const validationSchema = Yup.object().shape({
     username: Yup.string()
       .email("please enter valid email")
@@ -71,7 +81,7 @@ function Login() {
                 </Avatar>
                 <h2>Sign In</h2>
               </Grid>
-
+              {Error && <Alert severity="error">{Error}</Alert>}
               <Formik
                 initialValues={initialValues}
                 onSubmit={onSubmit}
@@ -89,7 +99,7 @@ function Login() {
                       fullWidth
                       required
                     />
-                    
+
                     <Field
                       as={TextField}
                       label="Password"
@@ -100,23 +110,21 @@ function Login() {
                       fullWidth
                       required
                       error={Boolean(props.errors.password)}
-                      
                     />
                     <Field
                       as={FormControlLabel}
                       name="remember"
-                      control={<Checkbox color="primary"  />}
+                      control={<Checkbox color="primary" />}
                       label="Remember me"
                     />
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      fullWidth
-                      style={Btnstyle}
-                      disabled={props.isSubmitting}
-                    >
-                      {props.isSubmitting ?  "Loading.." : "Sign In" }
-                    </Button>
+                    <Grid align="center" style={{marginTop:"25px"}}>
+              <Button type="submit" style={Btnstyle} variant="contained"
+              disabled={props.isSubmitting}
+              >
+                {props.isSubmitting ?  "Loading.." : "Sign Up" }
+                
+              </Button>
+            </Grid>
                   </Form>
                 )}
               </Formik>

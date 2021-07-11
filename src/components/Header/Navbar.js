@@ -16,6 +16,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { useHistory } from 'react-router-dom';
 
+import { useAuth } from '../../Context/AuthContext';
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -81,6 +83,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const {currentUser, logout } = useAuth();
     const history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -117,9 +120,9 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={
+      ()=>(history.push('/profile'))}>Profile</MenuItem>
+      <MenuItem onClick={logout,()=>history.push('/login')}>Logout</MenuItem>
     </Menu>
   );
 
@@ -159,7 +162,7 @@ export default function PrimarySearchAppBar() {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>Account</p>
       </MenuItem>
     </Menu>
   );
@@ -193,8 +196,8 @@ export default function PrimarySearchAppBar() {
             />
           </div>
           <div className={classes.grow} />
-              <Typography style={{cursor:"pointer"}} onClick={()=>history.push('/login')} >Login</Typography>
-          <div className={classes.sectionDesktop}>
+              {!currentUser &&   <Typography style={{cursor:"pointer"}} onClick={()=>history.push('/login')} >Login</Typography>}
+          {currentUser && <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
@@ -215,8 +218,8 @@ export default function PrimarySearchAppBar() {
             >
               <AccountCircle />
             </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
+          </div>}
+          {currentUser && <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}
@@ -226,7 +229,7 @@ export default function PrimarySearchAppBar() {
             >
               <MoreIcon />
             </IconButton>
-          </div>
+          </div>}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
