@@ -122,7 +122,7 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem onClick={
       ()=>(history.push('/profile'))}>Profile</MenuItem>
-      <MenuItem onClick={logout,()=>history.push('/login')}>Logout</MenuItem>
+      <MenuItem onClick={logout}>Logout</MenuItem>
     </Menu>
   );
 

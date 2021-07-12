@@ -43,7 +43,7 @@ function SignUp() {
    try{
      setError("")
      await signup(values.email,values.password)
-      history.push('/')
+      history.push('/login')
    }catch{
      setError("Failed to Sign Up")
    }

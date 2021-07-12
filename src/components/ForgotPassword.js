@@ -3,23 +3,22 @@ import { Grid, Paper, Button, Typography, Link } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Box from "@material-ui/core/Box";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import Alert from '@material-ui/lab/Alert';
+import Alert from "@material-ui/lab/Alert";
 import { useTheme } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import { useAuth } from "../../Context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import { useState } from "react";
 
-function Login() {
-  const { login } = useAuth();
+function ForgotPassword() {
+  const { resetPassword } = useAuth();
   const history = useHistory();
   const [Error, setError] = useState();
+  const [Message, setMessage] = useState();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const paperStyle = {
@@ -41,27 +40,23 @@ function Login() {
   };
 
   const initialValues = {
-    username: "",
-    password: "",
-    remember: false,
+    email: "",
   };
   async function onSubmit(values, props) {
     try {
+      setMessage("");
       setError("");
-      
-      await login(values.username, values.password);
-      history.push("/");
+      await resetPassword(values.email);
+      setMessage("Check your inbox for furthur instructions");
     } catch {
-      
-      setError("Failed to Log In");
+      setError("Failed to reset password");
     }
   }
 
   const validationSchema = Yup.object().shape({
-    username: Yup.string()
+    email: Yup.string()
       .email("please enter valid email")
       .required("Required"),
-    password: Yup.string().required("Required"),
   });
 
   return (
@@ -79,9 +74,11 @@ function Login() {
                 <Avatar style={avatarStyle}>
                   <LockOutlinedIcon />
                 </Avatar>
-                <h2>Sign In</h2>
+                <h2>Forgot Password</h2>
               </Grid>
+
               {Error && <Alert severity="error">{Error}</Alert>}
+              {Message && <Alert severity="success">{Message}</Alert>}
               <Formik
                 initialValues={initialValues}
                 onSubmit={onSubmit}
@@ -91,47 +88,38 @@ function Login() {
                   <Form>
                     <Field
                       as={TextField}
-                      label="Username"
-                      name="username"
-                      placeholder="Enter Username"
-                      helperText={<ErrorMessage name="username" />}
-                      error={Boolean(props.errors.username)}
+                      label="Email"
+                      name="email"
+                      placeholder="Enter your email"
+                      helperText={<ErrorMessage name="email" />}
+                      error={Boolean(props.errors.email)}
                       fullWidth
                       required
                     />
 
-                    <Field
-                      as={TextField}
-                      label="Password"
-                      name="password"
-                      placeholder="Enter Password"
-                      type="password"
-                      helperText={<ErrorMessage name="password" />}
-                      fullWidth
-                      required
-                      error={Boolean(props.errors.password)}
-                    />
-                    <Field
-                      as={FormControlLabel}
-                      name="remember"
-                      control={<Checkbox color="primary" />}
-                      label="Remember me"
-                    />
-                    <Grid align="center" style={{marginTop:"25px"}}>
-              <Button type="submit" style={Btnstyle} variant="contained"
-              disabled={props.isSubmitting}
-              >
-                {props.isSubmitting ?  "Loading.." : "Sign Up" }
-                
-              </Button>
-            </Grid>
+                    <Grid align="center" style={{ marginTop: "25px" }}>
+                      <Button
+                        type="submit"
+                        style={Btnstyle}
+                        variant="contained"
+                        disabled={props.isSubmitting}
+                      >
+                        {props.isSubmitting ? "Loading.." : "Reset"}
+                      </Button>
+                    </Grid>
                   </Form>
                 )}
               </Formik>
-              <Typography>
-                <Link style={{ cursor: "pointer" }} onClick={()=>history.push('/forgot-password')} >Forgot password ?</Link>
+
+              <Typography align="center">
+                <Link
+                  style={{ cursor: "pointer" }}
+                  onClick={() => history.push("/login")}
+                >
+                  Log In
+                </Link>
               </Typography>
-              <Typography>
+              <Typography style={{ marginTop: "80px" }}>
                 Do you have an account ?
                 <Link
                   style={{ cursor: "pointer" }}
@@ -159,7 +147,7 @@ function Login() {
   );
 }
 
-export default Login;
+export default ForgotPassword;
 
 function Copyright() {
   return (
