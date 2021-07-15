@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Paper, Button, Typography, Link } from "@material-ui/core";
+import { Grid, Paper, Button, Typography, Link, Divider } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import TextField from "@material-ui/core/TextField";
@@ -82,6 +82,8 @@ function Login() {
                 <h2>Sign In</h2>
               </Grid>
               {Error && <Alert severity="error">{Error}</Alert>}
+              
+              <Divider variant="middle" ></Divider>
               <Formik
                 initialValues={initialValues}
                 onSubmit={onSubmit}
@@ -128,6 +130,10 @@ function Login() {
                   </Form>
                 )}
               </Formik>
+              <Grid align="center">
+              Connect with
+                 
+              </Grid>
               <Typography>
                 <Link style={{ cursor: "pointer" }} onClick={()=>history.push('/forgot-password')} >Forgot password ?</Link>
               </Typography>
