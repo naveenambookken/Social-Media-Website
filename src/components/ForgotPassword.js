@@ -22,7 +22,7 @@ function ForgotPassword() {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const paperStyle = {
-    height: 450,
+    
     width: !matches ? 300 : 600,
     margin: "50px auto",
   };
@@ -66,8 +66,7 @@ function ForgotPassword() {
           <Grid
             container
             direction="row"
-            justifyContent="center"
-            alignItems="center"
+            
           >
             <Grid item xs={12} sm={6} style={{ padding: 20 }}>
               <Grid align="center">
@@ -131,8 +130,7 @@ function ForgotPassword() {
             </Grid>
             <Grid item xs={6} style={{ display: !matches ? "none" : "block" }}>
               <img
-                width="300"
-                height="450"
+                style={{width:"100%", height:"100%", objectFit:"cover"}}
                 src="https://images.all-free-download.com/images/graphiclarge/digital_technology_background_modern_silhouette_3d_design_6837527.jpg"
                 alt="i"
               />

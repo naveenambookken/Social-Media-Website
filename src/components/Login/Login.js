@@ -133,7 +133,7 @@ function Login() {
               </Formik>
               
               <Grid align="center" style={{marginBottom:"20px"}} >
-              <Box style={{margin:"10px"}}>OR</Box>
+              {/* <Box style={{margin:"10px"}}>OR</Box>
               <Box style={{display:"flex", justifyContent:"center", alignItems:"center" ,marginBottom:"10px" ,textAlign: 'center'}}>Connect with
               
               <Icon style={{marginLeft:"5px"}}>
@@ -144,7 +144,7 @@ function Login() {
               <img style={{height:"100%"}} src="https://img.icons8.com/color/24/000000/facebook-new.png" alt=""/>
                 
               </Icon>
-              </Box>
+              </Box> */}
                  
               </Grid>
               <Typography>

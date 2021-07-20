@@ -2,33 +2,50 @@ import Login from "./components/Login/Login";
 import Signup from "./components/Signup/SignUp";
 import Home from "./Pages/Home";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { AuthProvider } from "./Context/AuthContext";
 import Profile from "./Pages/ProfilePage";
 import EditProfile from "./components/Profile/EditProfile";
-import PrivateRouter from "./PrivateRouter";
-import ForgotPassword from './components/ForgotPassword'
+import ForgotPassword from "./components/ForgotPassword";
+import Write from './Pages/write/Write'
+import Single from './Pages/single/Single'
+import Topbar from './components/topbar/Topbar'
+import { useAuth } from "./Context/AuthContext";
 
 function App() {
+  const { currentUser } = useAuth();
   return (
-    <div className="App">
+    
       <Router>
-        <AuthProvider>
+        
+        <Topbar>{
           <Switch>
-            <PrivateRouter exact path="/" component={Home} />
-            
-            <PrivateRouter path="/editprofile" component={EditProfile} />
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/posts">
+              <Home />
+            </Route>
+            <Route path="/signup">
+              {currentUser ? <Home /> : <Signup />}
+            </Route>
+            <Route path="/login">
+              {currentUser ? <Home /> : <Login />}
+            </Route>
+            <Route path="/post/:id">
+              <Single />
+            </Route>
+            <Route path="/write">{currentUser ? <Write /> : <Login />}</Route>
+            <Route path="/settings">
+              {currentUser ? <Profile /> : <Login />}
+            </Route>
 
-            <Route path="/login" component={Login} />
-
-            <Route path="/signup" component={Signup} />
-
-            <PrivateRouter path="/profile" component={Profile} />
+            <Route path="/editprofile" component={EditProfile} />
 
             <Route path="/forgot-password" component={ForgotPassword} />
           </Switch>
-        </AuthProvider>
+          }</Topbar>
+        
       </Router>
-    </div>
+    
   );
 }
 
