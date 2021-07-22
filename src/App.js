@@ -9,6 +9,7 @@ import Write from './Pages/write/Write'
 import Single from './Pages/single/Single'
 import Topbar from './components/topbar/Topbar'
 import { useAuth } from "./Context/AuthContext";
+import Settings from './Pages/settings/Settings'
 
 function App() {
   const { currentUser } = useAuth();
@@ -35,7 +36,7 @@ function App() {
             </Route>
             <Route path="/write">{currentUser ? <Write /> : <Login />}</Route>
             <Route path="/settings">
-              {currentUser ? <Profile /> : <Login />}
+              {currentUser ? <Settings /> : <Login />}
             </Route>
 
             <Route path="/editprofile" component={EditProfile} />

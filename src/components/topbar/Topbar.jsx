@@ -33,6 +33,7 @@ const drawerWidth = 220;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    overflow: "hidden"
   },
 
   appBar: {
@@ -88,8 +89,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   content: {
-    flexGrow: 1,
-    padding: theme.spacing(7),
+    
   },
 
   grow: {
@@ -195,6 +195,7 @@ export default function PrimarySearchAppBar(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -207,13 +208,13 @@ export default function PrimarySearchAppBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => history.push("/settings")}>
+  <MenuItem onClick={() => {history.push("/settings"); handleMenuClose()}}>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <SettingsIcon />
         </IconButton>
         <p>Settings</p>
       </MenuItem>
-      <MenuItem onClick={logout}>
+      <MenuItem onClick={()=>{logout(); handleMenuClose()}}>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <ExitToAppIcon />
         </IconButton>
@@ -250,13 +251,13 @@ export default function PrimarySearchAppBar(props) {
         <p>Notifications</p>
       </MenuItem>
 
-      <MenuItem onClick={() => history.push("/settings")}>
+      <MenuItem onClick={() => {history.push("/settings"); handleMobileMenuClose()}}>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <SettingsIcon />
         </IconButton>
         <p>Settings</p>
       </MenuItem>
-      <MenuItem onClick={logout}>
+      <MenuItem onClick={()=>{logout(); handleMobileMenuClose()}}>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <ExitToAppIcon />
         </IconButton>
