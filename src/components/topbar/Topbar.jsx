@@ -28,6 +28,10 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { Grid, List, ListItem, ListItemIcon } from "@material-ui/core";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import ListItemText from "@material-ui/core/ListItemText";
+import HomeIcon from '@material-ui/icons/Home';
+import InfoIcon from '@material-ui/icons/Info';
+import AssistantIcon from '@material-ui/icons/Assistant';
+import CreateIcon from '@material-ui/icons/Create';
 
 const drawerWidth = 220;
 const useStyles = makeStyles((theme) => ({
@@ -89,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   content: {
-    
+    padding: theme.spacing(2)
   },
 
   grow: {
@@ -299,7 +303,7 @@ export default function PrimarySearchAppBar(props) {
             <MenuIcon />
           </IconButton>
 
-          <Typography
+          {/* <Typography
             onClick={() => history.push("/")}
             className={classes.title}
             variant="h6"
@@ -320,7 +324,7 @@ export default function PrimarySearchAppBar(props) {
             noWrap
           >
             Write
-          </Typography>
+          </Typography> */}
           {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -421,26 +425,34 @@ export default function PrimarySearchAppBar(props) {
         </div>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
+          
+            <ListItem button onClick={() => history.push("/")}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <HomeIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="Home" />
             </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
+            <ListItem button >
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <InfoIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="About" />
             </ListItem>
-          ))}
+            <ListItem button >
+              <ListItemIcon>
+                <AssistantIcon />
+              </ListItemIcon>
+              <ListItemText primary="Contact" />
+            </ListItem>
+            <ListItem button onClick={() => history.push("/write")}>
+              <ListItemIcon>
+                <CreateIcon />
+              </ListItemIcon>
+              <ListItemText primary="Write" />
+            </ListItem>
+          
         </List>
+      
       </Drawer>
       {renderMobileMenu}
       {renderMenu}
