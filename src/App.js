@@ -2,8 +2,6 @@ import Login from "./components/Login/Login";
 import Signup from "./components/Signup/SignUp";
 import Home from "./Pages/Home";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Profile from "./Pages/ProfilePage";
-import EditProfile from "./components/Profile/EditProfile";
 import ForgotPassword from "./components/ForgotPassword";
 import Write from './Pages/write/Write'
 import Single from './Pages/single/Single'
@@ -38,9 +36,6 @@ function App() {
             <Route path="/settings">
               {currentUser ? <Settings /> : <Login />}
             </Route>
-
-            <Route path="/editprofile" component={EditProfile} />
-
             <Route path="/forgot-password" component={ForgotPassword} />
           </Switch>
           }</Topbar>

@@ -34,14 +34,14 @@
 
 .settingsPP {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
 .settingsPP > img {
-  height: 70px;
-  width: 70px;
+  height: 80px;
+  width: 80px;
   border-radius: 20px;
   object-fit: cover;
 }

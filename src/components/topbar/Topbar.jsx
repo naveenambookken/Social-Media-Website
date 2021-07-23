@@ -37,7 +37,7 @@ const drawerWidth = 220;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    overflow: "hidden"
+    
   },
 
   appBar: {
