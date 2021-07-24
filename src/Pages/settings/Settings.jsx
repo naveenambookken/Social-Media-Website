@@ -14,9 +14,10 @@ import LockIcon from "@material-ui/icons/Lock";
 import { Paper } from "@material-ui/core";
 
 export default function Settings() {
-  const { currentUser, updateEmail, updatePassword } = useAuth();
+  const { currentUser, updateEmail, updatePassword, addProfilePic, profileImage } = useAuth();
   const [Error, setError] = useState();
   const [Message, setMessage] = useState();
+ 
   const paperStyle = { padding: 20, width: 350, margin: "20px auto" };
   const Btnstyle = {
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
@@ -28,7 +29,7 @@ export default function Settings() {
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
   };
   const initialValues = {
-    name: currentUser && currentUser.email,
+    name: currentUser && currentUser.displayName,
     email: currentUser && currentUser.email,
     password: "",
   };
@@ -86,7 +87,8 @@ export default function Settings() {
               <label>Profile Picture</label>
               <div className="settingsPP">
                 <img
-                  src="https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                  
+                  src={profileImage}
                   alt=""
                 />
                 <label htmlFor="fileInput">
@@ -95,6 +97,9 @@ export default function Settings() {
                 <input
                   id="fileInput"
                   type="file"
+                  onChange={(e)=>{
+                    addProfilePic(e.target.files[0])
+                  }}
                   style={{ display: "none" }}
                   className="settingsPPInput"
                 />

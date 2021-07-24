@@ -16,7 +16,7 @@ import { useState } from "react";
 
 
 function SignUp() {
-  const {signup}= useAuth()
+  const {signup, addUser }= useAuth()
     const history = useHistory()
     const [Error, setError] = useState()
   const paperStyle = { padding: 20, width: 300, margin: "20px auto" };
@@ -42,7 +42,8 @@ function SignUp() {
   async function onSubmit(values, props){
    try{
      setError("")
-     await signup(values.email,values.password)
+     await signup(values.email,values.password,values.name)
+     await addUser(values.name,values.email)
       history.push('/login')
    }catch{
      setError("Failed to Sign Up")
