@@ -12,6 +12,7 @@ import TextField from "@material-ui/core/TextField";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 import { Paper } from "@material-ui/core";
+import { useEffect } from "react";
 
 export default function Settings() {
   const { currentUser, updateEmail, updatePassword, addProfilePic, profileImage } = useAuth();
@@ -33,6 +34,11 @@ export default function Settings() {
     email: currentUser && currentUser.email,
     password: "",
   };
+
+useEffect(() => {
+ 
+})
+
   function onSubmit(values, props) {
     setError("");
     setMessage("");
@@ -77,6 +83,7 @@ export default function Settings() {
         </div>
         {Error && <Alert severity="error">{Error}</Alert>}
         {Message && <Alert severity="success">{Message}</Alert>}
+        
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
@@ -88,7 +95,7 @@ export default function Settings() {
               <div className="settingsPP">
                 <img
                   
-                  src={profileImage}
+                  src={`${currentUser && currentUser.photoURL}`}
                   alt=""
                 />
                 <label htmlFor="fileInput">

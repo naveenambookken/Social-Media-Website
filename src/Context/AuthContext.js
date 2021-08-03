@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createContext, useContext } from "react";
-import { auth, fire } from "../firebase/config";
+import { auth } from "../firebase/config";
 import firebase from "firebase";
 
 const AuthContext = createContext();
@@ -17,13 +17,18 @@ export function AuthProvider({ children }) {
     return auth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        result.user.updateProfile({ displayName: name });
+        result.user.updateProfile({ displayName: name,
+          photoURL:"https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" });
+        
+      }).then(() => {
+       console.log("successfully signed up")
+        
       });
       
   }
   function login(email, password) {
     return auth.signInWithEmailAndPassword(email, password);
-    getProfileUrl()
+    
   }
   function logout() {
     return auth.signOut();
@@ -40,14 +45,13 @@ export function AuthProvider({ children }) {
   }
   function addUser(name, email) {
     return auth.onAuthStateChanged((user) => {
-      fire.collection("users").add({
+      firebase.firestore.collection("users").doc(user.uid).add({
         id: user.uid,
         name: name,
         email: email,
-        imageUrl:
-          "https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        
       });
-      getProfileUrl()
+      
     });
   }
   
@@ -60,28 +64,15 @@ export function AuthProvider({ children }) {
       .then(({ ref }) => {
         ref.getDownloadURL().then((url) => {
           console.log(url);
-          fire.collection("users").doc().get().where("id","==",user.uid).set({
-            
-            imageUrl:url
-              
-          });
+           currentUser.updateProfile({ photoURL: url})
+          
+         
         });
       });
     })
   }
-
-  function getProfileUrl() {
-    return auth.onAuthStateChanged((user) => {
-      fire
-      .collection("users")
-      .where("id", "==", user.uid)
-      .get()
-      .then((snapshot) => {
-        console.log(snapshot.docs.imageUrl);
-      });
-    })
-  }
-
+ 
+  
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -99,7 +90,7 @@ export function AuthProvider({ children }) {
     updatePassword,
     addUser,
     addProfilePic,
-    profileImage,
+    
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
